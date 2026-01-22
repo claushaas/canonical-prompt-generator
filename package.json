@@ -1,0 +1,49 @@
+{
+	"$schema": "https://www.raycast.com/schemas/extension.json",
+	"author": "claus_haas",
+	"commands": [
+		{
+			"description": "canonical prompt generator",
+			"mode": "view",
+			"name": "canonical-prompt-generator",
+			"title": "Canonical Prompt Generator",
+			"update": "npx npm-check-updates -i"
+		}
+	],
+	"dependencies": {
+		"@raycast/api": "^1.104.2",
+		"@raycast/utils": "^2.2.2",
+		"react": "19.0.0",
+		"react-dom": "19.0.0"
+	},
+	"description": "canonical prompt generator",
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@raycast/eslint-config": "^2.1.1",
+		"@types/node": "25.0.10",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"eslint": "^9.39.2",
+		"prettier": "^3.8.1",
+		"typescript": "^5.9.3"
+	},
+	"icon": "extension-icon.png",
+	"license": "MIT",
+	"name": "canonical-prompt-generator",
+	"platforms": [
+		"macOS",
+		"Windows"
+	],
+	"scripts": {
+		"biome": "biome check --write --unsafe",
+		"build": "npx ray build",
+		"dev": "npx ray develop",
+		"fix-lint": "npx ray lint --fix",
+		"lint": "npx ray lint --fix && npm run biome && npm run typecheck",
+		"prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+		"publish": "npx @raycast/api@latest publish",
+		"typecheck": "tsc --noEmit",
+		"update": "npx npm-check-updates -i"
+	},
+	"title": "Canonical Prompt Generator"
+}

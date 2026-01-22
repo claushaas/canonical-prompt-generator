@@ -1,0 +1,81 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on",
+				"useSortedAttributes": "on",
+				"useSortedKeys": "on",
+				"useSortedProperties": "on"
+			}
+		}
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"**/*.js",
+			"**/*.ts",
+			"**/*.tsx",
+			"**/*.css",
+			"**/*.scss",
+			"**/*.html",
+			"**/*.json",
+			"**/*.md",
+			"!**/app.css",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/build",
+			"!**/coverage",
+			"!**/.git",
+			"!**/.vscode",
+			"!**/.react-router",
+			"!**/.wrangler",
+			"!**/worker-configuration.d.ts",
+			"!**/*.d.ts",
+			"!**/*.spec.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single"
+		}
+	},
+	"linter": {
+		"domains": {
+			"react": "all"
+		},
+		"enabled": true,
+		"rules": {
+			"correctness": {
+				"useUniqueElementIds": "off"
+			},
+			"recommended": true,
+			"style": {
+				"useComponentExportOnlyModules": "off"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"assist": {
+				"actions": {
+					"source": {
+						"useSortedAttributes": "off",
+						"useSortedKeys": "off",
+						"useSortedProperties": "off"
+					}
+				}
+			},
+			"includes": ["**/harada/**/*.json"]
+		}
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": true
+	}
+}

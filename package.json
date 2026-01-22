@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@raycast/api": "^1.104.2",
 		"@raycast/utils": "^2.2.2",
+		"markdownlint-cli": "^0.47.0",
 		"react": "19.0.0",
 		"react-dom": "19.0.0"
 	},
@@ -40,6 +41,7 @@
 		"dev": "npx ray develop",
 		"fix-lint": "npx ray lint --fix",
 		"lint": "npx ray lint --fix && npm run biome && npm run typecheck",
+		"md:lint": "npx markdownlint-cli --fix --ignore node_modules ./**/*.md",
 		"prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
 		"publish": "npx @raycast/api@latest publish",
 		"typecheck": "tsc --noEmit",

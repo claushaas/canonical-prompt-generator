@@ -158,7 +158,6 @@ O problema a resolver é a **instabilidade estrutural de prompts livres**, que p
 ## Segurança e privacidade
 
 - O conteúdo do prompt é copiado para o clipboard.
-- **Aviso explícito na UI** informa que conteúdos sensíveis podem ser expostos via clipboard.
 - Não usar `concealed: true` na v1.
 - Não armazenar ou transmitir dados do usuário.
 
@@ -233,6 +232,7 @@ Um prompt é considerado **auditável** quando:
 ## Decisões registradas
 
 - A seção “Papel e responsabilidade” utiliza **texto normativo fixo**, não editável pelo usuário, conforme definido em `docs/meta-prompt.md`.
+- O prompt final inicia diretamente pela seção “1. Papel e responsabilidade”, sem linhas introdutórias adicionais.
 
 ---
 

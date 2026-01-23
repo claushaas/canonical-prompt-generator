@@ -23,6 +23,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/etapas.md`, `docs/spec.md`.
 - Definição de pronto: UI apresenta as etapas na ordem canônica e bloqueia avanço com inputs vazios.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 2) Implementar dropdowns de Regime e Perfil com rótulos canônicos
 

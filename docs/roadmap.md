@@ -70,17 +70,7 @@ Comandos de execução e build seguem o padrão oficial do Raycast Extensions AP
 - Referências: `docs/implementation/*`.
 - Definição de pronto: docs sem incongruências.
 
-## Trilhas paralelas (se aplicável)
-
-- (nenhuma)
-
-## Riscos e mitigação
-
-- [RISK] Divergência entre os textos do bloco normativo e o meta‑prompt. Mitigar usando `spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md` como fonte canônica. [SOURCE: docs/meta-prompt.md, docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
-- [RISK] Inconsistência entre rótulos do dropdown e o mapeamento cognitivo. Mitigar alinhando `raycast-dropdown-regime-profile-options.md` com o mapeamento. [SOURCE: docs/implementation/raycast-dropdown-regime-profile-options.md]
-- [RISK] Alteração do `meta-prompt.md` sem aprovação explícita. Mitigar registrando justificativa e pedindo confirmação prévia. [SOURCE: docs/meta-prompt.md]
-
-## Checklist de release/publicação
+### 7) Checklist de release/publicação
 
 - [ ] `npm run build` executa sem erros
 - [ ] Extensão abre corretamente no Raycast

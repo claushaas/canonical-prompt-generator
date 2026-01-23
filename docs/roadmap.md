@@ -77,6 +77,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/spec.md`.
 - Definição de pronto: comportamento conforme SPEC.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 8) Revisão de consistência documental
 

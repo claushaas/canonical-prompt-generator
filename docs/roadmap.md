@@ -59,6 +59,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/meta-prompt.md`.
 - Definição de pronto: seção existe e não é editável pelo usuário.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 6) Atualizar estrutura do PROMPT CANÔNICO FINAL
 

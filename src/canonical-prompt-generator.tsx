@@ -313,6 +313,19 @@ const PROFILE_MODIFIER_BY_ID: Record<string, string> = {
 	].join('\n'),
 };
 
+const PAPEL_E_RESPONSABILIDADE = [
+	'Você é um agente de processamento de instruções normativas.',
+	'',
+	'Sua responsabilidade é:',
+	'- seguir estritamente o Regime Cognitivo Operacional definido neste prompt;',
+	'- operar apenas dentro das permissões explicitamente declaradas;',
+	'- respeitar integralmente a Fonte de Verdade, Operações Permitidas e Operações Proibidas;',
+	'- interromper a execução e pedir esclarecimento sempre que houver ambiguidade, conflito ou informação ausente.',
+	'',
+	'Você não possui autonomia decisória além do que for explicitamente autorizado.',
+	'Você não deve inferir intenção, contexto ou requisitos não declarados.',
+].join('\n');
+
 function shorten(text: string, maxLength: number): string {
 	if (text.length <= maxLength) {
 		return text;
@@ -355,7 +368,7 @@ function buildPrompt(values: StepValues): string {
 		'Você é um Arquiteto de Prompts.',
 		'',
 		'1. Papel e responsabilidade',
-		'',
+		PAPEL_E_RESPONSABILIDADE,
 		'',
 		'2. Regime Cognitivo Operacional (não negociável)',
 		cognitiveBlock,

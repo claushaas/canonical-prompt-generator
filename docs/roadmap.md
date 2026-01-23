@@ -50,6 +50,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/cognitive-regime-profile-mapping-spec.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
 - Definição de pronto: bloco “REGIME COGNITIVO OPERACIONAL (NÃO NEGOCIÁVEL)” é injetado após “Papel e responsabilidade” e antes de “Objetivo”.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 5) Fixar seção “Papel e responsabilidade” no prompt final
 

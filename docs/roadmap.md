@@ -86,6 +86,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/spec.md`.
 - Definição de pronto: docs consistentes com a implementação final.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ## Trilhas paralelas (se aplicável)
 

@@ -41,6 +41,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/etapas.md`.
 - Definição de pronto: validação bloqueia avanço para qualquer etapa vazia, sem dependência de “Custom...”.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 4) Gerar Regime Cognitivo Operacional (bloco fixo)
 

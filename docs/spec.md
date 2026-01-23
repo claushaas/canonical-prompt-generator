@@ -4,7 +4,7 @@
 
 - Status: v1.1 (Locked)
 - Fonte de verdade (hierarquia explícita):
-  1. `docs/meta-prompt.md`
+  1. `assets/meta-prompt.md`
   2. `docs/salvaguarda-semantica.md`
   3. `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
   4. `docs/cognitive-regime-profile-mapping-spec.md`
@@ -23,7 +23,7 @@ A proposta é uma **extensão Raycast** que guia o usuário por um **wizard de e
 O problema a resolver é a **instabilidade estrutural de prompts livres**, que permitem inferência indevida, uso de fontes implícitas e execução fora do escopo declarado, conforme descrito nos documentos de base do projeto.
 
 **Fontes conceituais primárias**:  
-`docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`, `docs/etapas.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
+`assets/meta-prompt.md`, `docs/salvaguarda-semantica.md`, `docs/etapas.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
 
 ---
 
@@ -231,7 +231,7 @@ Um prompt é considerado **auditável** quando:
 
 ## Decisões registradas
 
-- A seção “Papel e responsabilidade” utiliza **texto normativo fixo**, não editável pelo usuário, conforme definido em `docs/meta-prompt.md`.
+- A seção “Papel e responsabilidade” utiliza **texto normativo fixo**, não editável pelo usuário, conforme definido em `assets/meta-prompt.md`.
 - A separação entre fase de compilação e fase de execução é obrigatória, conforme `docs/apec-separacao-de-fases-compilacao-vs-execucao.md`.
 - O prompt final inicia diretamente pela seção “1. Papel e responsabilidade”, sem linhas introdutórias adicionais.
 

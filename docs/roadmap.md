@@ -8,7 +8,7 @@ Metadados
 
 ## Visão geral do plano
 
-Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` para implementar todas as especificações presentes em `docs/`, garantindo que o wizard, a geração do prompt e os blocos normativos estejam alinhados aos contratos definidos. [SOURCE: docs/spec.md, docs/etapas.md, docs/meta-prompt.md, docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
+Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` para implementar todas as especificações presentes em `docs/`, garantindo que o wizard, a geração do prompt e os blocos normativos estejam alinhados aos contratos definidos. [SOURCE: docs/spec.md, docs/etapas.md, assets/meta-prompt.md, docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
 
 ## Pré-requisitos e setup
 
@@ -45,7 +45,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 
 ### 4) Gerar Regime Cognitivo Operacional (bloco fixo)
 
-- Objetivo: traduzir Nível + Perfil em bloco normativo fixo e inseri-lo no prompt final na posição obrigatória. [SOURCE: docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md, docs/meta-prompt.md]
+- Objetivo: traduzir Nível + Perfil em bloco normativo fixo e inseri-lo no prompt final na posição obrigatória. [SOURCE: docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md, assets/meta-prompt.md]
 - Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
 - Referências: `docs/cognitive-regime-profile-mapping-spec.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
@@ -54,19 +54,19 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 
 ### 5) Fixar seção “Papel e responsabilidade” no prompt final
 
-- Objetivo: usar texto normativo fixo definido no `docs/meta-prompt.md` para a seção “Papel e responsabilidade”. [SOURCE: docs/spec.md, docs/meta-prompt.md]
+- Objetivo: usar texto normativo fixo definido no `assets/meta-prompt.md` para a seção “Papel e responsabilidade”. [SOURCE: docs/spec.md, assets/meta-prompt.md]
 - Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
-- Referências: `docs/meta-prompt.md`.
+- Referências: `assets/meta-prompt.md`.
 - Definição de pronto: seção existe e não é editável pelo usuário.
 **Status:** CONCLUÍDA (2026-01-23)
 
 ### 6) Atualizar estrutura do PROMPT CANÔNICO FINAL
 
-- Objetivo: gerar prompt final com seções e ordem exatas do meta‑prompt, incluindo cláusulas obrigatórias. [SOURCE: docs/meta-prompt.md, docs/salvaguarda-semantica.md]
+- Objetivo: gerar prompt final com seções e ordem exatas do meta‑prompt, incluindo cláusulas obrigatórias. [SOURCE: assets/meta-prompt.md, docs/salvaguarda-semantica.md]
 - Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
-- Referências: `docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`.
+- Referências: `assets/meta-prompt.md`, `docs/salvaguarda-semantica.md`.
 - Definição de pronto: prompt final contém todas as seções, a cláusula de bloqueio e a linha “Se faltar informação obrigatória, pare e pergunte antes de prosseguir.”
 **Status:** CONCLUÍDA (2026-01-23)
 
@@ -81,7 +81,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 
 ### 8) Revisão de consistência documental
 
-- Objetivo: garantir que a SPEC reflita o comportamento implementado (sem alterar `docs/meta-prompt.md` sem justificativa e confirmação). [SOURCE: docs/spec.md, docs/meta-prompt.md]
+- Objetivo: garantir que a SPEC reflita o comportamento implementado (sem alterar `assets/meta-prompt.md` sem justificativa e confirmação). [SOURCE: docs/spec.md, assets/meta-prompt.md]
 - Arquivos envolvidos: `docs/spec.md`.
 - Comandos: nenhum.
 - Referências: `docs/spec.md`.
@@ -94,7 +94,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 
 ## Riscos e mitigação
 
-- [RISK] Divergência entre a implementação e o meta‑prompt. Mitigar mantendo o meta‑prompt como fonte fixa e conferindo a ordem das seções. [SOURCE: docs/meta-prompt.md]
+- [RISK] Divergência entre a implementação e o meta‑prompt. Mitigar mantendo o meta‑prompt como fonte fixa e conferindo a ordem das seções. [SOURCE: assets/meta-prompt.md]
 - [RISK] Inconsistência entre rótulos do dropdown e o mapeamento cognitivo. Mitigar usando `docs/raycast-dropdown-regime-profile-options.md` e o spec de mapeamento. [SOURCE: docs/raycast-dropdown-regime-profile-options.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
 - [RISK] Erros de validação e fluxo do wizard após refatoração. Mitigar com revisão manual do fluxo e mensagens de validação. [SOURCE: docs/spec.md]
 

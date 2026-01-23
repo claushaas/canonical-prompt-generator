@@ -85,7 +85,7 @@ Após qualquer resolução de conflito semântico:
 
 Esta decisão é **obrigatória** para:
 
-- `docs/meta-prompt.md`
+- `assets/meta-prompt.md`
 - lógica da extensão Raycast
 - validação de regressões futuras
 

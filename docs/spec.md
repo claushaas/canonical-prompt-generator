@@ -122,7 +122,7 @@ O problema a resolver é a **instabilidade estrutural de prompts livres**, que p
 
 - RNF1: Suporte oficial **macOS**; suporte **best-effort em Windows**, com limitações documentadas.
 - RNF2: Implementação em React + TypeScript usando `@raycast/api`.
-- RNF3: Sem dependências externas além das declaradas no `package.json`.
+- RNF3: Sem dependências externas além das declaradas no repositório.
 - RNF4: Build limpo (`npm run build`) antes de publicação.
 
 ---
@@ -209,13 +209,13 @@ Um prompt é considerado **auditável** quando:
 
 ### Comportamentais
 
-- CA4: Não é possível gerar o prompt com etapas incompletas.
-- CA5: O prompt é copiado e a colagem é tentada com fallback documentado.
+- CA5: Não é possível gerar o prompt com etapas incompletas.
+- CA6: O prompt é copiado e a colagem é tentada com fallback documentado.
 
 ### Técnicos
 
-- CA6: `npm run build` executa sem erros.
-- CA7: Limitações de plataforma, se existirem, estão documentadas.
+- CA7: `npm run build` executa sem erros.
+- CA8: Limitações de plataforma, se existirem, estão documentadas.
 
 ---
 

@@ -1,82 +1,99 @@
-# ROADMAP — Canonical Prompt Generator (Raycast)
+# ROADMAP — Implementação do Canonical Prompt Generator (Raycast)
 
 Metadados
 
 - Status: Draft
-- Fonte de verdade: docs do repo (incluindo `docs/*`)
+- Fonte de verdade: docs do repo (`docs/*`)
 - Última atualização: 2026-01-23
 
 ## Visão geral do plano
 
-Planejar a implementação do gerador canônico alinhado aos documentos em `docs/`, com UI em Raycast, validação de etapas e geração do prompt final normativo. [SOURCE: docs/etapa-1.md, docs/miolo.md, docs/meta-prompt.md, docs/etapas.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
+Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` para implementar todas as especificações presentes em `docs/`, garantindo que o wizard, a geração do prompt e os blocos normativos estejam alinhados aos contratos definidos. [SOURCE: docs/spec.md, docs/etapas.md, docs/meta-prompt.md, docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
 
 ## Pré-requisitos e setup
 
-- Node.js LTS compatível com Raycast (>= 18)
-- npm ou pnpm
-- Raycast instalado (macOS)
-- Raycast CLI configurado
-
-Comandos de execução e build seguem o padrão oficial do Raycast Extensions API.
+- [PENDING] Comandos de execução e build devem seguir o padrão oficial do Raycast Extensions API e os scripts existentes no repositório. [SOURCE: docs/spec.md]
 
 ## Etapas em sequência
 
-### 1) Consolidar etapas e tipos de input do wizard
+### 1) Alinhar o wizard às etapas e tipos de input canônicos
 
-- Objetivo: alinhar o wizard às etapas definidas em `docs/etapas.md` e ao input do `docs/meta-prompt.md` (Etapa 1, 1.1, 2–7). [SOURCE: docs/etapas.md, docs/meta-prompt.md]
-- Arquivos envolvidos: `docs/etapas.md`, `docs/spec.md`.
+- Objetivo: atualizar a UI para refletir as etapas 1, 1.1 e 2–7, com dropdown apenas em Regime/Perfil e TextArea nas demais, incluindo dois campos na etapa de Formato/Idioma. [SOURCE: docs/etapas.md, docs/spec.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
-- Referências: `docs/etapas.md`, `docs/meta-prompt.md`.
-- Definição de pronto: ordem, nomes e tipos de input consolidados e refletidos na SPEC.
-**Status:** CONCLUÍDA (2026-01-23)
+- Referências: `docs/etapas.md`, `docs/spec.md`.
+- Definição de pronto: UI apresenta as etapas na ordem canônica e bloqueia avanço com inputs vazios.
 
-### 2) Consolidar opções de dropdown (Regime/Perfil)
+### 2) Implementar dropdowns de Regime e Perfil com rótulos canônicos
 
-- Objetivo: definir rótulos oficiais dos dropdowns sem opção “Custom...”. [SOURCE: docs/raycast-dropdown-regime-profile-options.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
-- Arquivos envolvidos: `docs/raycast-dropdown-regime-profile-options.md`, `docs/spec.md`.
+- Objetivo: substituir opções atuais por rótulos oficiais e remover “Custom...” nos dropdowns de Regime/Perfil. [SOURCE: docs/raycast-dropdown-regime-profile-options.md, docs/spec.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
 - Referências: `docs/raycast-dropdown-regime-profile-options.md`.
-- Definição de pronto: rótulos alinhados e consistentes entre docs.
+- Definição de pronto: dropdowns exibem exatamente os rótulos canônicos.
 
-### 3) Consolidar tradução Nível + Perfil → Regime Cognitivo Operacional
+### 3) Remover etapas não especificadas e atualizar validações
 
-- Objetivo: definir o bloco normativo fixo e sua posição no prompt final. [SOURCE: docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md, docs/cognitive-regime-profile-mapping-spec.md]
-- Arquivos envolvidos: `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`, `docs/cognitive-regime-profile-mapping-spec.md`, `docs/spec.md`.
+- Objetivo: remover etapas fora do contrato (ex.: “Papel”) e adequar validações ao novo conjunto de etapas. [SOURCE: docs/etapas.md, docs/spec.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
-- Referências: `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`, `docs/cognitive-regime-profile-mapping-spec.md`.
-- Definição de pronto: bloco e regras de inserção descritos de forma consistente.
+- Referências: `docs/etapas.md`.
+- Definição de pronto: validação bloqueia avanço para qualquer etapa vazia, sem dependência de “Custom...”.
 
-### 4) Validar ordem e estrutura do PROMPT CANÔNICO FINAL
+### 4) Gerar Regime Cognitivo Operacional (bloco fixo)
 
-- Objetivo: garantir a ordem das seções conforme `docs/meta-prompt.md`. [SOURCE: docs/meta-prompt.md]
-- Arquivos envolvidos: `docs/meta-prompt.md`, `docs/spec.md`.
+- Objetivo: traduzir Nível + Perfil em bloco normativo fixo e inseri-lo no prompt final na posição obrigatória. [SOURCE: docs/cognitive-regime-profile-mapping-spec.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md, docs/meta-prompt.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
+- Comandos: nenhum.
+- Referências: `docs/cognitive-regime-profile-mapping-spec.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
+- Definição de pronto: bloco “REGIME COGNITIVO OPERACIONAL (NÃO NEGOCIÁVEL)” é injetado após “Papel e responsabilidade” e antes de “Objetivo”.
+
+### 5) Fixar seção “Papel e responsabilidade” no prompt final
+
+- Objetivo: usar texto normativo fixo definido no `docs/meta-prompt.md` para a seção “Papel e responsabilidade”. [SOURCE: docs/spec.md, docs/meta-prompt.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
 - Referências: `docs/meta-prompt.md`.
-- Definição de pronto: SPEC reflete a ordem correta; nenhuma alteração no meta‑prompt sem aprovação explícita.
+- Definição de pronto: seção existe e não é editável pelo usuário.
 
-### 5) Resolver pendência “Papel e responsabilidade”
+### 6) Atualizar estrutura do PROMPT CANÔNICO FINAL
 
-- Objetivo: definir a origem do conteúdo da seção “Papel e responsabilidade”.
-- Decisão: **Papel fixo, normativo e não editável**, definido no `docs/meta-prompt.md`.
-- Justificativa: garantir estabilidade estrutural, evitar persona implícita e preservar auditabilidade.
-- Definição de pronto: decisão registrada e refletida na SPEC.
-
-**Status:** DECIDIDO (Opção B)
-
-### 6) Revisão final de consistência documental
-
-- Objetivo: garantir coerência entre `spec.md`, `roadmap.md`, `etapas.md` e os specs de mapeamento. [SOURCE: docs/spec.md, docs/roadmap.md, docs/etapas.md]
-- Arquivos envolvidos: `docs/spec.md`, `docs/roadmap.md`, `docs/etapas.md`, `docs/cognitive-regime-profile-mapping-spec.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
+- Objetivo: gerar prompt final com seções e ordem exatas do meta‑prompt, incluindo cláusulas obrigatórias. [SOURCE: docs/meta-prompt.md, docs/salvaguarda-semantica.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
 - Comandos: nenhum.
-- Referências: `docs/*`.
-- Definição de pronto: docs sem incongruências.
+- Referências: `docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`.
+- Definição de pronto: prompt final contém todas as seções, a cláusula de bloqueio e a linha “Se faltar informação obrigatória, pare e pergunte antes de prosseguir.”
 
-### 7) Checklist de release/publicação
+### 7) Validar comportamento de copy/paste e feedback
 
-- [ ] `npm run build` executa sem erros
-- [ ] Extensão abre corretamente no Raycast
-- [ ] Wizard valida todas as etapas obrigatórias
-- [ ] Prompt final contém todas as seções obrigatórias na ordem correta
+- Objetivo: manter cópia para clipboard, tentativa de colagem e toasts de sucesso/falha. [SOURCE: docs/spec.md]
+- Arquivos envolvidos: `src/canonical-prompt-generator.tsx`.
+- Comandos: nenhum.
+- Referências: `docs/spec.md`.
+- Definição de pronto: comportamento conforme SPEC.
+
+### 8) Revisão de consistência documental
+
+- Objetivo: garantir que a SPEC reflita o comportamento implementado (sem alterar `docs/meta-prompt.md` sem justificativa e confirmação). [SOURCE: docs/spec.md, docs/meta-prompt.md]
+- Arquivos envolvidos: `docs/spec.md`.
+- Comandos: nenhum.
+- Referências: `docs/spec.md`.
+- Definição de pronto: docs consistentes com a implementação final.
+
+## Trilhas paralelas (se aplicável)
+
+- (nenhuma)
+
+## Riscos e mitigação
+
+- [RISK] Divergência entre a implementação e o meta‑prompt. Mitigar mantendo o meta‑prompt como fonte fixa e conferindo a ordem das seções. [SOURCE: docs/meta-prompt.md]
+- [RISK] Inconsistência entre rótulos do dropdown e o mapeamento cognitivo. Mitigar usando `docs/raycast-dropdown-regime-profile-options.md` e o spec de mapeamento. [SOURCE: docs/raycast-dropdown-regime-profile-options.md, docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md]
+- [RISK] Erros de validação e fluxo do wizard após refatoração. Mitigar com revisão manual do fluxo e mensagens de validação. [SOURCE: docs/spec.md]
+
+## Checklist de release/publicação
+
+- [ ] Wizard apresenta etapas 1, 1.1 e 2–7 conforme SPEC
+- [ ] Dropdowns de Regime/Perfil com rótulos canônicos e sem “Custom..."
+- [ ] Prompt final com seções na ordem correta
 - [ ] Regime Cognitivo Operacional e Salvaguarda Semântica presentes e imutáveis
-- [ ] Clipboard copy funciona; paste tenta executar com fallback documentado
-- [ ] Limitações de plataforma (Windows) documentadas
+- [ ] Clipboard copy e paste com fallback de toast

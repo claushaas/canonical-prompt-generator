@@ -68,6 +68,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`.
 - Definição de pronto: prompt final contém todas as seções, a cláusula de bloqueio e a linha “Se faltar informação obrigatória, pare e pergunte antes de prosseguir.”
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 7) Validar comportamento de copy/paste e feedback
 

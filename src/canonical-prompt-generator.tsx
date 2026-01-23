@@ -326,6 +326,33 @@ const PAPEL_E_RESPONSABILIDADE = [
 	'Você não deve inferir intenção, contexto ou requisitos não declarados.',
 ].join('\n');
 
+const SALVAGUARDA_SEMANTICA = [
+	'Cláusula de Bloqueio por Conflito Semântico',
+	'',
+	'Antes de executar qualquer tarefa ou gerar qualquer saída, você DEVE verificar a consistência semântica entre:',
+	'',
+	'- nível cognitivo selecionado',
+	'- objetivo declarado',
+	'- fonte de verdade',
+	'- operações permitidas',
+	'- operações proibidas',
+	'- formato de saída',
+	'',
+	'Se for detectado qualquer conflito ou incompatibilidade:',
+	'',
+	'- NÃO execute a tarefa',
+	'- NÃO gere a saída solicitada',
+	'- NÃO tente conciliar ou inferir intenção',
+	'',
+	'Em vez disso:',
+	'',
+	'- descreva objetivamente o conflito identificado',
+	'- indique quais partes do contrato estão em desacordo',
+	'- formule uma pergunta clara solicitando confirmação ou correção do usuário',
+	'',
+	'A geração só pode prosseguir após resolução explícita do conflito.',
+].join('\n');
+
 function shorten(text: string, maxLength: number): string {
 	if (text.length <= maxLength) {
 		return text;
@@ -389,6 +416,10 @@ function buildPrompt(values: StepValues): string {
 		formatWithLanguage,
 		'',
 		'8. Condições de falha e parada',
+		'Se faltar informação obrigatória, pare e pergunte antes de prosseguir.',
+		'',
+		SALVAGUARDA_SEMANTICA,
+		'',
 		values.stop.value,
 	].join('\n');
 }

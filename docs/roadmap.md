@@ -32,6 +32,7 @@ Refatorar a extensão Raycast existente em `src/canonical-prompt-generator.tsx` 
 - Comandos: nenhum.
 - Referências: `docs/raycast-dropdown-regime-profile-options.md`.
 - Definição de pronto: dropdowns exibem exatamente os rótulos canônicos.
+**Status:** CONCLUÍDA (2026-01-23)
 
 ### 3) Remover etapas não especificadas e atualizar validações
 

@@ -6,13 +6,13 @@
 - Fonte de verdade (hierarquia explícita):
   1. `docs/meta-prompt.md`
   2. `docs/salvaguarda-semantica.md`
-  3. `docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
-  4. `docs/implementation/cognitive-regime-profile-mapping-spec.md`
-  5. `docs/implementation/etapas.md`
-  6. `docs/implementation/raycast-dropdown-regime-profile-options.md`
+  3. `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
+  4. `docs/cognitive-regime-profile-mapping-spec.md`
+  5. `docs/etapas.md`
+  6. `docs/raycast-dropdown-regime-profile-options.md`
   7. `docs/etapa-1.md`, `docs/miolo.md`
   8. Este documento (SPEC)
-- Última atualização: 2026-01-22
+- Última atualização: 2026-01-23
 
 ---
 
@@ -23,7 +23,7 @@ A proposta é uma **extensão Raycast** que guia o usuário por um **wizard de e
 O problema a resolver é a **instabilidade estrutural de prompts livres**, que permitem inferência indevida, uso de fontes implícitas e execução fora do escopo declarado, conforme descrito nos documentos de base do projeto.
 
 **Fontes conceituais primárias**:  
-`docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`, `docs/implementation/etapas.md`, `docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
+`docs/meta-prompt.md`, `docs/salvaguarda-semantica.md`, `docs/etapas.md`, `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`.
 
 ---
 
@@ -114,7 +114,7 @@ O problema a resolver é a **instabilidade estrutural de prompts livres**, que p
 - RF7: Copiar para o clipboard e tentar colar automaticamente.
 - RF8: Exibir toasts claros de sucesso, validação ou fallback.
 - RF9: Nenhuma etapa é opcional e nenhuma etapa pode ser inferida automaticamente.
-- RF10: As opções de dropdown seguem `docs/implementation/raycast-dropdown-regime-profile-options.md` e **não incluem “Custom...”**.
+- RF10: As opções de dropdown seguem `docs/raycast-dropdown-regime-profile-options.md` e **não incluem “Custom...”**.
 
 ---
 
@@ -180,8 +180,8 @@ O texto exato é definido em `docs/salvaguarda-semantica.md` e **não pode ser a
 
 O Prompt Canônico Final **DEVE** incluir um bloco normativo fixo denominado **REGIME COGNITIVO OPERACIONAL (NÃO NEGOCIÁVEL)**, derivado do Nível + Perfil escolhidos no dropdown, conforme:
 
-- `docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
-- `docs/implementation/cognitive-regime-profile-mapping-spec.md`
+- `docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
+- `docs/cognitive-regime-profile-mapping-spec.md`
 
 Esse bloco deve ser inserido **após** “Papel e responsabilidade” e **antes** de “Objetivo”, sem reescrita ou edição pelo usuário.
 

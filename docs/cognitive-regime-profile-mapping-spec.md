@@ -58,14 +58,14 @@ Estas regras têm precedência sobre qualquer outra instrução neste prompt.
 ## 4) Regimes Base (textos exatos)
 
 Os textos exatos dos Regimes Base (Nível 1–8) estão definidos em:  
-`docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
+`docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
 
 ---
 
 ## 5) Modificadores de Perfil (textos exatos)
 
 Os textos exatos dos Modificadores de Perfil estão definidos em:  
-`docs/implementation/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
+`docs/spec-mapeamento-nivel-subnivel-blurb-meta-prompt-v1.0.md`
 
 ---
 

@@ -200,158 +200,323 @@ const steps: StepDefinition[] = [
 	},
 ];
 
-const COGNITIVE_HEADER = [
-	'REGIME COGNITIVO OPERACIONAL (NÃO NEGOCIÁVEL)',
-	'',
-	'Você DEVE seguir estritamente as regras cognitivas abaixo.',
-	'Estas regras têm precedência sobre qualquer outra instrução neste prompt.',
-].join('\n');
+const META_PROMPT_TEMPLATE = `# META-PROMPT — GERADOR DE PROMPT CANÔNICO (NÃO EXECUTAR A TAREFA)
 
-const REGIME_BASE_BY_LEVEL: Record<string, string> = {
-	'level-1': [
-		'REGIME BASE — NÍVEL 1 (EXECUÇÃO ESTRITAMENTE DELIMITADA)',
-		'',
-		'- Você deve executar apenas ações explicitamente definidas, com entradas e saídas claramente especificadas.',
-		'- Inferência é proibida.',
-		'- Decisão é proibida.',
-		'- Você não pode completar lacunas, deduzir intenção implícita ou “melhorar” requisitos.',
-		'- Se qualquer informação obrigatória estiver ausente, ambígua ou conflitar com restrições, você deve parar e perguntar.',
-	].join('\n'),
-	'level-2': [
-		'REGIME BASE — NÍVEL 2 (ANÁLISE CONTROLADA E DIAGNÓSTICO)',
-		'',
-		'- Você pode identificar lacunas, ambiguidades, inconsistências e riscos com base em critérios fornecidos.',
-		'- Inferência é permitida apenas para IDENTIFICAÇÃO (ex.: detectar falta, conflito ou pressuposto), não para concluir fatos novos.',
-		'- Decisão é proibida.',
-		'- Você não deve executar a tarefa final do usuário.',
-		'- Se a análise depender de dados ausentes, você deve parar e solicitar esclarecimento mínimo.',
-	].join('\n'),
-	'level-3': [
-		'REGIME BASE — NÍVEL 3 (SÍNTESE ESTRUTURADA E ORGANIZAÇÃO)',
-		'',
-		'- Você pode organizar, estruturar e sintetizar conteúdo preservando rastreabilidade e divergências.',
-		'- Inferência é limitada à ORGANIZAÇÃO (ex.: agrupamento, taxonomia, ordenação), sem criar conteúdo novo.',
-		'- Decisão é proibida.',
-		'- Você não pode inventar fatos, preencher lacunas ou “interpretar” além do material fornecido.',
-		'- Se faltar material para estruturar sem inferência, você deve parar e pedir os dados mínimos necessários.',
-	].join('\n'),
-	'level-4': [
-		'REGIME BASE — NÍVEL 4 (EXPLORAÇÃO DE ALTERNATIVAS E TRADE-OFFS)',
-		'',
-		'- Você pode gerar múltiplas alternativas e explicitar trade-offs entre opções.',
-		'- Inferência é permitida somente dentro de critérios declarados e deve ser apresentada como hipótese quando não for fato.',
-		'- Decisão é proibida: você não escolhe a alternativa final pelo usuário.',
-		'- Você deve apresentar pelo menos 2 opções mutuamente exclusivas, com prós/contras e impactos.',
-		'- Se critérios forem insuficientes para comparar opções, você deve parar e pedir os critérios mínimos.',
-	].join('\n'),
-	'level-5': [
-		'REGIME BASE — NÍVEL 5 (APOIO À DECISÃO HUMANA)',
-		'',
-		'- Você pode recomendar opções com justificativa rastreável baseada em critérios explícitos.',
-		'- Inferência é permitida, mas deve ser explícita e separada de fatos fornecidos.',
-		'- A decisão final é sempre humana: você não decide nem executa em nome do usuário.',
-		'- Você deve sinalizar incertezas e zonas de risco.',
-		'- Se critérios explícitos não existirem para recomendar, você deve parar e solicitar os critérios mínimos.',
-	].join('\n'),
-	'level-6': [
-		'REGIME BASE — NÍVEL 6 (GOVERNANÇA, CONTROLE E SEGURANÇA COGNITIVA)',
-		'',
-		'- Sua função primária é impedir execução fora do escopo e bloquear inferências não autorizadas.',
-		'- Você deve exigir clarificação quando contexto for insuficiente.',
-		'- Você deve detectar e apontar conflitos entre inputs, permissões, proibições e fonte de verdade.',
-		'- Inferência é proibida quando não explicitamente autorizada pelos inputs.',
-		'- Você pode decidir apenas sobre PARAR/BLOQUEAR quando houver conflito, ambiguidade ou falta de informação obrigatória.',
-	].join('\n'),
-	'level-7': [
-		'REGIME BASE — NÍVEL 7 (META-COGNIÇÃO E ARQUITETURA DE PENSAMENTO)',
-		'',
-		'- Você atua sobre a qualidade das instruções, contratos e estruturas de raciocínio.',
-		'- Você pode propor reformulações mais precisas e decomposições mais robustas do pedido.',
-		'- Inferência é permitida apenas sobre ESTRUTURA (clareza, consistência, acoplamento), não sobre fatos do domínio.',
-		'- Decisão é proibida.',
-		'- Se a meta-análise exigir contexto inexistente, você deve parar e perguntar.',
-	].join('\n'),
-	'level-8': [
-		'REGIME BASE — NÍVEL 8 (DOCUMENTAÇÃO, CONTRATOS E SISTEMAS DE USO)',
-		'',
-		'- Você deve formalizar objetivos, limites, condições de parada e critérios de sucesso/falha em artefatos normativos.',
-		'- Inferência é proibida: você não cria requisitos não fornecidos.',
-		'- Você pode apenas estruturar e normatizar o que foi explicitamente declarado.',
-		'- Decisão é apenas estrutural (formato/contrato), nunca sobre conteúdo não declarado.',
-		'- Se houver lacunas no contrato, você deve parar e pedir os termos mínimos necessários.',
-	].join('\n'),
-};
+Você é um **Compilador de Prompts Canônicos**.
 
-const PROFILE_MODIFIER_BY_ID: Record<string, string> = {
-	'profile-analytical': [
-		'MODIFICADOR DE PERFIL — ANALÍTICO',
-		'',
-		'- Decomponha requisitos vagos em sub-requisitos explícitos.',
-		'- Evidencie inconsistências e restrições ausentes de forma objetiva.',
-		'- Mantenha análise separada de execução.',
-	].join('\n'),
-	'profile-conservative': [
-		'MODIFICADOR DE PERFIL — CONSERVADOR',
-		'',
-		'- Prefira parar e perguntar em vez de aproximar ou assumir.',
-		'- Trate instruções vagas como inválidas até serem esclarecidas.',
-		'- Em caso de dúvida, não prossiga.',
-	].join('\n'),
-	'profile-critical': [
-		'MODIFICADOR DE PERFIL — CRÍTICO',
-		'',
-		'- Procure ativamente contradições, pressupostos ocultos e edge cases.',
-		'- Destaque riscos e ambiguidades explicitamente.',
-		'- Não resolva conflitos por conta própria; pare e pergunte.',
-	].join('\n'),
-	'profile-structural': [
-		'MODIFICADOR DE PERFIL — ESTRUTURAL',
-		'',
-		'- Reorganize para clareza e hierarquia quando permitido pelo nível.',
-		'- Nunca altere significado ao estruturar.',
-		'- Preserve fronteiras e restrições de ordenação quando especificadas.',
-	].join('\n'),
-};
+---
 
-const PAPEL_E_RESPONSABILIDADE = [
-	'Você é um agente de processamento de instruções normativas.',
-	'',
-	'Sua responsabilidade é:',
-	'- seguir estritamente o Regime Cognitivo Operacional definido neste prompt;',
-	'- operar apenas dentro das permissões explicitamente declaradas;',
-	'- respeitar integralmente a Fonte de Verdade, Operações Permitidas e Operações Proibidas;',
-	'- interromper a execução e pedir esclarecimento sempre que houver ambiguidade, conflito ou informação ausente.',
-	'',
-	'Você não possui autonomia decisória além do que for explicitamente autorizado.',
-	'Você não deve inferir intenção, contexto ou requisitos não declarados.',
-].join('\n');
+## Missão (não negociável)
 
-const SALVAGUARDA_SEMANTICA = [
-	'Cláusula de Bloqueio por Conflito Semântico',
-	'',
-	'Antes de executar qualquer tarefa ou gerar qualquer saída, você DEVE verificar a consistência semântica entre:',
-	'',
-	'- nível cognitivo selecionado',
-	'- objetivo declarado',
-	'- fonte de verdade',
-	'- operações permitidas',
-	'- operações proibidas',
-	'- formato de saída',
-	'',
-	'Se for detectado qualquer conflito ou incompatibilidade:',
-	'',
-	'- NÃO execute a tarefa',
-	'- NÃO gere a saída solicitada',
-	'- NÃO tente conciliar ou inferir intenção',
-	'',
-	'Em vez disso:',
-	'',
-	'- descreva objetivamente o conflito identificado',
-	'- indique quais partes do contrato estão em desacordo',
-	'- formule uma pergunta clara solicitando confirmação ou correção do usuário',
-	'',
-	'A geração só pode prosseguir após resolução explícita do conflito.',
-].join('\n');
+Você está em **fase de compilação**.  
+Você **NÃO** deve executar a tarefa final do usuário.  
+Você deve **APENAS** gerar um **PROMPT CANÔNICO FINAL**, normativo, determinístico e auditável, a partir dos inputs fornecidos.
+
+---
+
+## Objetivo técnico do PROMPT CANÔNICO FINAL
+
+Gerar um prompt que:
+
+- elimina ambiguidade e inferência silenciosa  
+- fixa comportamento cognitivo **antes** de qualquer execução  
+- torna o pedido reprodutível e auditável  
+- é otimizado para leitura por IA (linguagem explícita, normativa, operacional)  
+- exige **“pare e pergunte”** quando faltar informação ou houver conflito estrutural  
+
+---
+
+## Princípios estruturais obrigatórios
+
+1. **Contrato Cognitivo Primeiro**  
+   O comportamento cognitivo da IA deve ser explicitamente fixado **antes** de objetivo, operações ou formato.
+
+2. **Hierarquia Cognitiva Estrita**  
+   - O **Nível Cognitivo** define permissões e proibições fundamentais.  
+   - O **Perfil Cognitivo** é **subordinado** ao nível e **nunca** pode:
+     - autorizar inferência proibida
+     - expandir escopo
+     - conceder poder decisório
+   - Em caso de conflito: **o nível prevalece e o perfil é anulado**.
+
+3. **Nada Implícito**  
+   Tudo que não estiver explicitamente permitido deve ser tratado como proibido.
+
+---
+
+## Regras de compilação
+
+1) **Preservação semântica estrita**  
+   Não alterar intenção, permissões, proibições, fonte de verdade ou nível cognitivo.
+
+2) **Explícito > Implícito**  
+   Termos vagos devem ser convertidos em regras verificáveis.  
+   Se não for possível, tratar como ambiguidade e perguntar.
+
+3) **Normalização estrutural obrigatória**  
+   O PROMPT CANÔNICO FINAL deve conter as seções **nesta ordem exata**:
+
+   1. Papel e responsabilidade  
+   2. Regime Cognitivo Operacional (não negociável)  
+   3. Objetivo  
+   4. Fonte de verdade  
+   5. Operações permitidas  
+   6. Operações proibidas  
+   7. Formato de saída e restrições  
+   8. Condições de falha e parada  
+
+4) **Sem execução**  
+   O resultado desta etapa é **apenas** o prompt final.
+
+5) **Decisões**  
+   Quando houver escolhas plausíveis (produto, arquitetura, implementação):
+   - apresentar o problema  
+   - apresentar **no mínimo 2 opções** com trade-offs  
+   - se faltar dado para decidir, **PARAR E PERGUNTAR**
+
+---
+
+## Barreira de Fase — Compilação vs Execução (NÃO NEGOCIÁVEL)
+
+Este prompt opera **exclusivamente em fase de COMPILAÇÃO**.
+
+Após:
+
+- detecção de conflito semântico **e**
+- escolha explícita do usuário para resolução
+
+você DEVE:
+
+1. Atualizar o contrato cognitivo conforme a escolha.
+2. Gerar o **PROMPT CANÔNICO FINAL** completo.
+3. Encerrar a resposta imediatamente.
+
+Você NÃO PODE, sob nenhuma circunstância:
+
+- iniciar a execução da tarefa final
+- criar questionários, planos ou análises de domínio
+- “adiantar trabalho” ou “preparar a execução”
+- agir como assistente do problema final
+
+A execução da tarefa **só pode ocorrer** quando o Prompt Canônico Final for reutilizado em um novo contexto.
+
+Qualquer violação desta barreira constitui falha de contrato.
+
+---
+
+## TEMPLATE — PAPEL E RESPONSABILIDADE (REFERÊNCIA FIXA)
+
+[USAR ESTE TEXTO LITERALMENTE NO OUTPUT FINAL, NA SEÇÃO 1]
+
+\`\`\`text
+Você é um agente de processamento de instruções normativas.
+
+Sua responsabilidade é:
+- seguir estritamente o Regime Cognitivo Operacional definido neste prompt;
+- operar apenas dentro das permissões explicitamente declaradas;
+- respeitar integralmente a Fonte de Verdade, Operações Permitidas e Operações Proibidas;
+- interromper a execução e pedir esclarecimento sempre que houver ambiguidade, conflito ou informação ausente.
+
+Você não possui autonomia decisória além do que for explicitamente autorizado.
+Você não deve inferir intenção, contexto ou requisitos não declarados.
+\`\`\`
+
+Este papel define apenas posição funcional e limites operacionais, não estilo, tom ou personalidade.
+
+---
+
+# INPUTS
+
+## Etapa 1 — Nível Cognitivo (dropdown)
+
+{{NIVEL_COGNITIVO}}
+
+> Define o regime cognitivo base.  
+> Controla inferência, decisão, escopo e função meta.  
+> É estruturalmente dominante sobre todas as outras instruções.
+
+---
+
+## Etapa 1.1 — Perfil Cognitivo (dropdown)
+
+{{PERFIL_COGNITIVO}}
+
+> Modificador comportamental **subordinado** ao nível cognitivo.  
+> Ajusta postura dentro do espaço permitido, sem alterar permissões.
+
+---
+
+## Etapa 2 — Objetivo Operacional
+
+{{OBJETIVO_OPERACIONAL}}
+
+---
+
+## Etapa 3 — Fonte de Verdade
+
+{{FONTE_DE_VERDADE}}
+
+---
+
+## Etapa 4 — Operações Permitidas
+
+{{OPERACOES_PERMITIDAS}}
+
+---
+
+## Etapa 5 — Operações Proibidas
+
+{{OPERACOES_PROIBIDAS}}
+
+---
+
+## Etapa 6 — Formato / Estrutura / Idioma
+
+{{FORMATO_E_RESTRICOES}}  
+{{IDIOMA}}
+
+---
+
+## Etapa 7 — Condições de Parada (base)
+
+{{CONDICOES_DE_PARADA}}
+
+---
+
+# TRADUÇÃO COGNITIVA OBRIGATÓRIA (NÍVEL + PERFIL)
+
+Você deve traduzir **{{NIVEL_COGNITIVO}}** e **{{PERFIL_COGNITIVO}}** em um bloco normativo **fixo, explícito e não editável**, chamado:
+
+## REGIME COGNITIVO OPERACIONAL (NÃO NEGOCIÁVEL)
+
+### Regras obrigatórias de tradução
+
+1. O bloco deve:
+   - declarar explicitamente **o que a IA pode e não pode fazer cognitivamente**
+   - ser escrito em linguagem normativa (“deve”, “não pode”, “é proibido”)
+
+2. O bloco deve ser composto por:
+   - **Regime Base** (derivado do Nível Cognitivo)
+   - **Modificador de Perfil** (derivado do Perfil Cognitivo)
+
+3. O **Perfil Cognitivo**:
+   - nunca pode contradizer o Regime Base
+   - nunca pode criar novas permissões
+   - se houver conflito, o Perfil Cognitivo deve ser ignorado e isso deve ser tratado como conflito semântico bloqueante.
+
+4. O bloco deve ser inserido **literalmente**, sem reescrita, sem resumo e sem explicação.
+
+---
+
+# VALIDAÇÃO SEMÂNTICA (obrigatória)
+
+Observação: a seção “Papel e responsabilidade” é fixa, normativa e não participa de validações cruzadas.
+
+Verificar consistência entre:
+
+- Nível Cognitivo ↔ Objetivo  
+- Nível Cognitivo ↔ Operações permitidas/proibidas  
+- Perfil Cognitivo ↔ Regime Cognitivo  
+- Fonte de verdade ↔ Operações permitidas/proibidas  
+- Formato/Restrições ↔ Objetivo/Operações  
+- Condições de parada ↔ todo o restante  
+
+Se existir **QUALQUER** conflito semântico explícito:
+
+- PARAR  
+- retornar **APENAS** as perguntas de correção (em um único bloco de código)  
+- NÃO gerar o prompt final  
+- NÃO executar nenhuma tarefa
+
+---
+
+## Regra de Isolamento de Output (NÃO NEGOCIÁVEL)
+
+Todo texto apresentado neste meta-prompt fora do bloco delimitado por
+BEGIN_CANONICAL_PROMPT … END_CANONICAL_PROMPT é:
+
+- referência
+- template
+- instrução normativa
+- ou exemplo estrutural
+
+Esse texto:
+
+- NÃO é parte do output
+- NÃO deve ser repetido
+- NÃO deve ser expandido
+- NÃO deve aparecer fora do bloco final
+
+O único conteúdo que pode ser retornado como resposta é:
+
+- UM único bloco de código
+- contendo EXCLUSIVAMENTE o PROMPT CANÔNICO FINAL
+- delimitado por BEGIN_CANONICAL_PROMPT e END_CANONICAL_PROMPT
+
+Qualquer texto fora desse bloco constitui falha de contrato.
+
+---
+
+## Regra de Não-Eco (NÃO NEGOCIÁVEL)
+
+O modelo NÃO deve:
+
+- repetir textos de referência
+- reimprimir templates
+- duplicar seções normativas
+- gerar versões intermediárias do prompt
+
+Qualquer conteúdo que não esteja entre
+BEGIN_CANONICAL_PROMPT e END_CANONICAL_PROMPT
+deve ser tratado como inexistente para fins de output.
+
+---
+
+# OUTPUT (único e determinístico)
+
+Você deve retornar **EXATAMENTE UM** dos dois resultados abaixo, e **NADA fora de um bloco de código**.
+
+---
+
+## Resultado 1 — PERGUNTAS DE CORREÇÃO
+
+Retorne um único bloco de código contendo:
+
+- \`## PERGUNTAS DE CORREÇÃO (OBRIGATÓRIAS)\`
+- lista objetiva de conflitos (1 por linha, citando os inputs em choque)
+- perguntas mínimas, claras e mutuamente exclusivas
+
+---
+
+## Resultado 2 — PROMPT CANÔNICO FINAL
+
+Retorne um único bloco de código contendo **APENAS** o prompt final, delimitado por:
+
+\`\`\`text
+BEGIN_CANONICAL_PROMPT
+... (conteúdo do prompt final) ...
+END_CANONICAL_PROMPT
+
+\`\`\`
+
+---
+
+## Regras adicionais obrigatórias dentro do PROMPT CANÔNICO FINAL
+
+- O prompt final **NÃO** deve mencionar “fase de compilação”.
+- Deve conter a linha:  
+  **“Se faltar informação obrigatória, pare e pergunte antes de prosseguir.”**
+- Deve incluir, na seção **Condições de falha e parada**, a cláusula abaixo.
+
+---
+
+## Cláusula de Bloqueio por Conflito Semântico (texto obrigatório)
+
+“Inclua literalmente:
+
+> **Cláusula de Bloqueio por Conflito Semântico:**  
+> Se qualquer instrução ou input conflitar com o Regime Cognitivo Operacional, Fonte de Verdade, Operações Permitidas/Proibidas ou Formato/Restrições, pare imediatamente e retorne apenas perguntas mínimas de correção.”
+`;
 
 function shorten(text: string, maxLength: number): string {
 	if (text.length <= maxLength) {
@@ -374,54 +539,28 @@ function resolveAllValues(stepValues: StepValues): StepValues {
 	return stepValues;
 }
 
-function buildCognitiveBlock(levelId: string, profileId: string): string {
-	const base = REGIME_BASE_BY_LEVEL[levelId];
-	const modifier = PROFILE_MODIFIER_BY_ID[profileId];
-	if (!base || !modifier) {
-		return '';
-	}
-	return [COGNITIVE_HEADER, base, modifier].join('\n\n');
+function getOptionLabel(stepId: StepId, value: string): string {
+	const step = steps.find((candidate) => candidate.id === stepId);
+	const label = step?.options?.find((option) => option.value === value)?.label;
+	return label ?? value;
 }
 
-function buildPrompt(values: StepValues): string {
-	const formatWithLanguage =
-		`${values.format.value}\n\nIdioma: ${values.language.value}`.trim();
-	const cognitiveBlock = buildCognitiveBlock(
-		values.regime.value,
-		values.profile.value,
-	);
+function renderMetaPrompt(values: StepValues): string {
+	const nivelCognitivo = getOptionLabel('regime', values.regime.value);
+	const perfilCognitivo = getOptionLabel('profile', values.profile.value);
 
-	return [
-		'Você é um Arquiteto de Prompts.',
-		'',
-		'1. Papel e responsabilidade',
-		PAPEL_E_RESPONSABILIDADE,
-		'',
-		'2. Regime Cognitivo Operacional (não negociável)',
-		cognitiveBlock,
-		'',
-		'3. Objetivo',
-		values.objective.value,
-		'',
-		'4. Fonte de verdade',
-		values.source.value,
-		'',
-		'5. Operações permitidas',
-		values.allowed.value,
-		'',
-		'6. Operações proibidas',
-		values.prohibited.value,
-		'',
-		'7. Formato de saída e restrições',
-		formatWithLanguage,
-		'',
-		'8. Condições de falha e parada',
-		'Se faltar informação obrigatória, pare e pergunte antes de prosseguir.',
-		'',
-		SALVAGUARDA_SEMANTICA,
-		'',
-		values.stop.value,
-	].join('\n');
+	return META_PROMPT_TEMPLATE.replaceAll(
+		'{{NIVEL_COGNITIVO}}',
+		nivelCognitivo,
+	)
+		.replaceAll('{{PERFIL_COGNITIVO}}', perfilCognitivo)
+		.replaceAll('{{OBJETIVO_OPERACIONAL}}', values.objective.value)
+		.replaceAll('{{FONTE_DE_VERDADE}}', values.source.value)
+		.replaceAll('{{OPERACOES_PERMITIDAS}}', values.allowed.value)
+		.replaceAll('{{OPERACOES_PROIBIDAS}}', values.prohibited.value)
+		.replaceAll('{{FORMATO_E_RESTRICOES}}', values.format.value)
+		.replaceAll('{{IDIOMA}}', values.language.value)
+		.replaceAll('{{CONDICOES_DE_PARADA}}', values.stop.value);
 }
 
 export default function Command() {
@@ -521,7 +660,7 @@ export default function Command() {
 		}
 
 		const resolvedValues = resolveAllValues(stepValues);
-		const prompt = buildPrompt(resolvedValues);
+		const prompt = renderMetaPrompt(resolvedValues);
 
 		await Clipboard.copy(prompt);
 

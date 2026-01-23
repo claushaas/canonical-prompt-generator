@@ -232,6 +232,7 @@ Um prompt é considerado **auditável** quando:
 ## Decisões registradas
 
 - A seção “Papel e responsabilidade” utiliza **texto normativo fixo**, não editável pelo usuário, conforme definido em `docs/meta-prompt.md`.
+- A separação entre fase de compilação e fase de execução é obrigatória, conforme `docs/apec-separacao-de-fases-compilacao-vs-execucao.md`.
 - O prompt final inicia diretamente pela seção “1. Papel e responsabilidade”, sem linhas introdutórias adicionais.
 
 ---

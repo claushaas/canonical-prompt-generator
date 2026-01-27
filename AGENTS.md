@@ -1,3 +1,3 @@
 # AGENTS
 
-Sempre consulte a documentação oficial em <https://developers.raycast.com> ao trabalhar neste repositório.
+Todas as respostas no chat devem ser em pt-Br. O conteúdo dos arquivos deve ser em en-Us.
